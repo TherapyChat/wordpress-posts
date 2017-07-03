@@ -1,4 +1,4 @@
-[![Build status](https://travis-ci.org/Therapychat/wordpress-posts.svg?branch=master)](https://travis-ci.org/Therapychat/wordpress-posts)
+[![Build status](https://travis-ci.org/TherapyChat/wordpress-posts.svg?branch=master)](https://travis-ci.org/TherapyChat/wordpress-posts)
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/therapychat/wordpress-posts)
 
 # \<wordpress-posts\>
