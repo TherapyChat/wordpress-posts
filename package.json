@@ -1,5 +1,5 @@
 {
-  "name": "wordpress-posts",
+  "name": "@therapychat/wordpress-posts",
   "version": "1.0.0",
   "description": "Polymer element to show Wordpress posts",
   "main": "wordpress-posts.html",
@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/TherapyChat/wordpress-posts/issues"
   },
-  "homepage": "https://github.com/TherapyChat/wordpress-posts#readme"
+  "homepage": "https://github.com/TherapyChat/wordpress-posts#readme",
+  "directories": {
+    "test": "test"
+  }
 }
