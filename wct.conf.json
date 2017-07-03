@@ -16,7 +16,7 @@
           "browserName": "safari",
           "platform": "macOS 10.12",
           "version": "latest-2"
-        }
+        },
         {
           "browserName": "chrome",
           "platform": "Windows 10",
