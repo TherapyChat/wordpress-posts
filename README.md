@@ -17,7 +17,7 @@ Polymer element to show Wordpress posts
 -->
 ```html
 <wordpress-posts
-  url="https://wordpress.org/news/wp-json/wp/v2/"
+  url="https://wordpress.org/news"
   max="4"
   category-names="development, documentation"
 ></wordpress-posts>
