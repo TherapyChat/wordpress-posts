@@ -1,6 +1,7 @@
 {
   "name": "wordpress-posts",
   "description": "Polymer element to show Wordpress posts",
+  "version": "1.0.0",
   "main": "wordpress-posts.html",
   "dependencies": {
     "polymer": "polymer/polymer#^1.9.2",
