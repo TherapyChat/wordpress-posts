@@ -5,17 +5,12 @@
         {
           "browserName": "microsoftedge",
           "platform": "Windows 10",
-          "version": "latest-2"
-        },
-        {
-          "browserName": "internet explorer",
-          "platform": "Windows 10",
-          "version": "11"
+          "version": ""
         },
         {
           "browserName": "safari",
           "platform": "macOS 10.12",
-          "version": "latest-2"
+          "version": ""
         },
         {
           "browserName": "chrome",
