@@ -1,0 +1,30 @@
+{
+  "name": "wordpress-posts",
+  "version": "1.0.0",
+  "description": "Polymer element to show Wordpress posts",
+  "main": "wordpress-posts.html",
+  "scripts": {
+    "test": "polymer test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TherapyChat/wordpress-posts.git"
+  },
+  "keywords": [
+    "wordpress",
+    "posts",
+    "polymer",
+    "web-component",
+    "web-components",
+    "wp"
+  ],
+  "authors": [
+    "Therapychat <contacto@therapychat.com>",
+    "Alberto Fernandez <albertofdzm@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TherapyChat/wordpress-posts/issues"
+  },
+  "homepage": "https://github.com/TherapyChat/wordpress-posts#readme"
+}

@@ -1,0 +1,16 @@
+{
+  "extends": ["standard"],
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "html"
+  ],
+  "rules": {
+    "no-var": "off",
+    "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }]
+  },
+  "globals": {
+    "Polymer": true
+  }
+}

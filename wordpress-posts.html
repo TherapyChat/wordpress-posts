@@ -1,0 +1,310 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-image/iron-image.html">
+
+<dom-module id="wordpress-posts">
+<template>
+
+  <style>
+    :host {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      @apply(--wordpress-posts);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    h3,
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: var(--primary-color, inherit);
+      text-decoration: none;
+    }
+
+    article {
+      margin-bottom: 2em;
+
+      @apply(--wordpress-posts-article);
+    }
+
+    .thumbnail-container {
+      display: block;
+      overflow: hidden;
+      width: 100%;
+      height: 180px;
+
+      @apply(--wordpress-posts-thumbnail-container);
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+      transition: transform .5s ease-out;
+
+      @apply(--wordpress-posts-thumbnail);
+    }
+
+    .thumbnail-container:hover .thumbnail,
+    .thumbnail-container:focus .thumbnail {
+      transform: scale3d(1.3, 1.3, 1);
+
+      @apply(--wordpress-posts-thumbnail-hover);
+    }
+
+    .title {
+      min-height: 3em;
+      margin: 1em 0 .5em;
+
+      @apply(--wordpress-posts-title);
+    }
+
+    .excerpt {
+      min-height: 6em;
+      margin: .5em 0 2em;
+
+      @apply(--wordpress-posts-excerpt);
+    }
+
+    .read-more-icon {
+      width: 1.2em;
+      vertical-align: -.2em;
+      margin-left: .8em;
+    }
+
+    @media (max-width: 599px) {
+      .title,
+      .excerpt {
+        min-height: 0;
+      }
+    }
+
+    @media (min-width: 600px) {
+      article {
+        flex: 1 1 40%;
+        margin-right: 2em;
+
+        @apply(--wordpress-posts-article-media-medium);
+      }
+
+      article:nth-of-type(2n),
+      article:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+    @media (min-width: 900px) {
+      article {
+        flex: 1 1 30%;
+
+        @apply(--wordpress-posts-article-media-large);
+      }
+
+      article:nth-of-type(2n) {
+        margin-right: 2em;
+      }
+
+      article:nth-of-type(3n) {
+        margin-right: 0;
+      }
+    }
+  </style>
+
+  <iron-ajax
+    id="categoriesAjax"
+    url="[[url]]/wp-json/wp/v2/categories?context=embed"
+    handle-as="json"
+    on-response="onResponseCategories"
+  ></iron-ajax>
+
+  <iron-ajax
+    id="postsAjax"
+    url="[[url]]/wp-json/wp/v2/posts?context=embed"
+    handle-as="json"
+    on-response="onResponsePosts"
+  ></iron-ajax>
+
+  <iron-ajax
+    id="mediaAjax"
+    url="[[url]]/wp-json/wp/v2/media/[[_mediaId]]?context=embed"
+    handle-as="json"
+    on-response="onRedponseMedia"
+  ></iron-ajax>
+
+  <template is="dom-repeat" items="[[posts]]" as="post">
+    <article>
+      <a class="thumbnail-container" href="[[post.url]]" title="[[post.title]]">
+        <iron-image class="thumbnail" src="[[post.imageSrc]]" alt="[[post.imageAlt]]" sizing="cover"></iron-image>
+      </a>
+      <a href="[[post.url]]" title="[[post.title]]">
+        <h3 class="title" inner-h-t-m-l="[[trimHTML(post.title, maxTitleLength)]]"></h3>
+      </a>
+      <div class="excerpt" inner-h-t-m-l="[[trimHTML(post.excerpt, maxExcerptLength)]]"></div>
+
+      <template is="dom-if" if="[[showReadMore]]">
+        <a href="[[post.url]]" class="read-more"
+          title="Leer más sobre: [[post.title]]"
+        >Leer más <img class="read-more-icon" src="/assets/images/icons/arrow-forward.svg" alt="Icono de flecha"></a>
+      </template>
+    </article>
+  </template>
+</template>
+<script>
+  Polymer({
+    is: 'wordpress-posts',
+
+    properties: {
+      categories: {
+        type: Array,
+        observer: '_handleCategoriesChanged'
+      },
+      categoryNames: {
+        type: String
+      },
+      categoryIds: {
+        type: String,
+        observer: '_handleCategoryIdsChanged'
+      },
+      max: {
+        type: Number,
+        value: 3
+      },
+      maxTitleLength: {
+        type: Number,
+        value: 50
+      },
+      maxExcerptLength: {
+        type: Number,
+        value: 0
+      },
+      posts: {
+        type: Array
+      },
+      showReadMore: Boolean,
+      url: String,
+      _mediaId: String
+    },
+
+    ready: function () {
+      if (!this.categoryNames) {
+        this.getPosts()
+      } else {
+        this.getCategories()
+      }
+    },
+
+    getCategories: function () {
+      this.$.categoriesAjax.generateRequest()
+    },
+
+    generateCategoryIds: function (categories, categoryNames) {
+      return categories.reduce(
+        function (categoryIds, category) {
+          if (categoryNames.indexOf(category.slug) !== -1) {
+            categoryIds.push(category.id)
+          }
+
+          return categoryIds
+        },
+        []
+      ).join(',')
+    },
+
+    getPosts: function () {
+      if (this.max) {
+        this.$.postsAjax.params.per_page = this.max
+      }
+      if (this.categoryIds) {
+        this.$.postsAjax.params.categories = this.categoryIds
+      }
+      this.$.postsAjax.generateRequest()
+    },
+
+    getPostImage: function (post) {
+      var ironRequest
+
+      this._mediaId = post.featuredMediaId
+      ironRequest = this.$.mediaAjax.generateRequest()
+      ironRequest.postId = post.postId
+    },
+
+    onResponseCategories: function (ev, detail) {
+      if (detail.response && detail.response.length) {
+        this.categories = detail.response
+      }
+    },
+
+    onRedponseMedia: function (ev, detail) {
+      var postIndex = this.posts.findIndex(function (post) {
+        return detail.postId === post.postId
+      })
+
+      this.set(
+        'posts.' + postIndex + '.imageSrc',
+        detail.response.media_details.sizes.medium_large.source_url
+      )
+      this.set(
+        'posts.' + postIndex + '.imageAlt',
+        detail.response.alt_text
+      )
+    },
+
+    onResponsePosts: function (ev, detail) {
+      this.posts = this.parsePosts(detail.response)
+    },
+
+    parsePost: function (post) {
+      var parsedPost = {
+        postId: post.id,
+        title: post.title.rendered,
+        excerpt: post.excerpt.rendered,
+        url: post.link,
+        featuredMediaId: post.featured_media
+      }
+
+      this.getPostImage(parsedPost)
+
+      return parsedPost
+    },
+
+    parsePosts: function (posts) {
+      return posts.reduce(function (posts, post) {
+        posts.push(this.parsePost(post))
+        return posts
+      }.bind(this), [])
+    },
+
+    trimHTML: function (html, maxLength) {
+      var element = document.createElement('div')
+      var text = ''
+
+      element.innerHTML = html
+      text = element.textContent.trim()
+
+      if (maxLength && text.length > maxLength) {
+        element.textContent = text.substr(0, maxLength) + '...'
+      }
+
+      return element.innerHTML
+    },
+
+    _handleCategoriesChanged: function () {
+      if (this.categories && this.categories.length) {
+        this.categoryIds = this.generateCategoryIds(this.categories, this.categoryNames)
+      }
+    },
+
+    _handleCategoryIdsChanged: function (newVal, oldVal) {
+      this.getPosts()
+    }
+  })
+</script>
+</dom-module>
