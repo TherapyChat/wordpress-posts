@@ -120,21 +120,21 @@
 
   <iron-ajax
     id="categoriesAjax"
-    url="[[url]]/wp-json/wp/v2/categories?context=embed"
+    url="[[_computeCategoriesUrl(url)]]"
     handle-as="json"
     on-response="onResponseCategories"
   ></iron-ajax>
 
   <iron-ajax
     id="postsAjax"
-    url="[[url]]/wp-json/wp/v2/posts?context=embed"
+    url="[[_computePostsUrl(url)]]"
     handle-as="json"
     on-response="onResponsePosts"
   ></iron-ajax>
 
   <iron-ajax
     id="mediaAjax"
-    url="[[url]]/wp-json/wp/v2/media/[[_mediaId]]?context=embed"
+    url="[[_computeMediaUrl(url, _mediaId)]]"
     handle-as="json"
     on-response="onRedponseMedia"
   ></iron-ajax>
@@ -294,6 +294,18 @@
       }
 
       return element.innerHTML
+    },
+
+    _computeCategoriesUrl: function (url) {
+      return url + '/wp-json/wp/v2/categories?context=embed'
+    },
+
+    _computeMediaUrl: function (url, mediaId) {
+      return url + '/wp-json/wp/v2/media/' + _mediaId + '?context=embed'
+    },
+
+    _computePostsUrl: function (url) {
+      return url + '/wp-json/wp/v2/posts?context=embed'
     },
 
     _handleCategoriesChanged: function () {
