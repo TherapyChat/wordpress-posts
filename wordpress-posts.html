@@ -1,7 +1,35 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-image/iron-image.html">
+<!--
+`wordpress-posts`
 
+Example:
+```html
+<wordpress-posts
+  url="https://wordpress.org/news"
+  max="4"
+  category-names="development, documentation"
+></wordpress-posts>
+```
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--wordpress-posts` | Mixin applied to the component | `{}`
+`--wordpress-posts-article` | Mixin applied to the articles | `{}`
+`--wordpress-posts-article-mq-m-up` | Mixin applied to the articles on `min-width: 600px` | `{}`
+`--wordpress-posts-article-mq-l-up` | Mixin applied to the articles on `min-width: 900px` | `{}`
+`--wordpress-posts-thumbnail` | Mixin applied to the image thumbnails | `{}`
+`--wordpress-posts-thumbnail-hover` | Mixin applied to the image thumbnails when hover | `{}`
+`--wordpress-posts-thumbnail-container` | Mixin applied to the image thumbnails container | `{}`
+`--wordpress-posts-title` | Mixin applied to the title | `{}`
+`--wordpress-posts-excerpt` | Mixin applied to the excerpt | `{}`
+
+-->
 <dom-module id="wordpress-posts">
 <template>
 
@@ -92,7 +120,7 @@
         flex: 1 1 40%;
         margin-right: 2em;
 
-        @apply(--wordpress-posts-article-media-medium);
+        @apply(--wordpress-posts-article-mq-m-up);
       }
 
       article:nth-of-type(2n),
@@ -105,7 +133,7 @@
       article {
         flex: 1 1 30%;
 
-        @apply(--wordpress-posts-article-media-large);
+        @apply(--wordpress-posts-article-mq-l-up);
       }
 
       article:nth-of-type(2n) {
@@ -162,34 +190,62 @@
     is: 'wordpress-posts',
 
     properties: {
+      /**
+       * The URL of the Wordpress blog.
+       */
+      url: {
+        type: String
+      },
       categories: {
         type: Array,
         observer: '_handleCategoriesChanged'
       },
+      /**
+       * The query string of categories separated by commas for filter the posts. (`development, documentation`).
+       * If this property is empty then the component will retrieve all posts without filtering.
+       */
       categoryNames: {
         type: String
       },
+      /**
+       * The query string of categoriesIds separated by commat for filter the posts (`33, 25`).
+       * This property will be generated automatically if `categoryNames` is set.
+       */
       categoryIds: {
         type: String,
         observer: '_handleCategoryIdsChanged'
       },
+      /**
+       * Max number of posts to show
+       */
       max: {
         type: Number,
         value: 3
       },
+      /**
+       * Max length for post titles. If the title exceeds this length it will be trimed and will have an ellipsis appended.
+       */
       maxTitleLength: {
         type: Number,
         value: 50
       },
+      /**
+       * Max length for post excerpts. If the excerpt exceeds this length it will be trimed and will have an ellipsis appended.
+       */
       maxExcerptLength: {
         type: Number,
         value: 0
       },
+      /**
+       * The retrieved posts array.
+       */
       posts: {
         type: Array
       },
+      /**
+       * If true the posts elements will display a read more link.
+       */
       showReadMore: Boolean,
-      url: String,
       _mediaId: String
     },
 
