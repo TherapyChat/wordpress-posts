@@ -4,6 +4,10 @@
   "description": "Polymer element to show Wordpress posts",
   "main": "wordpress-posts.html",
   "scripts": {
+    "build": "polymer build",
+    "lint": "eslint **/*.js **/*.html",
+    "start": "polymer serve",
+    "pretest": "npm run lint",
     "test": "polymer test"
   },
   "repository": {
@@ -29,5 +33,14 @@
   "homepage": "https://github.com/TherapyChat/wordpress-posts#readme",
   "directories": {
     "test": "test"
+  },
+  "devDependencies": {
+    "eslint": "^4.1.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }

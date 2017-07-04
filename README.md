@@ -1,5 +1,6 @@
 [![Build status](https://travis-ci.org/TherapyChat/wordpress-posts.svg?branch=master)](https://travis-ci.org/TherapyChat/wordpress-posts)
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/therapychat/wordpress-posts)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 # \<wordpress-posts\>
 
