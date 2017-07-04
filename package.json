@@ -26,7 +26,7 @@
     "Therapychat <contacto@therapychat.com>",
     "Alberto Fernandez <albertofdzm@gmail.com>"
   ],
-  "license": "MIT",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/TherapyChat/wordpress-posts/issues"
   },
