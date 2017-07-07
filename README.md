@@ -6,6 +6,12 @@
 
 Polymer element to show Wordpress posts
 
+Intall:
+```bash
+bower install -S wordpress-posts
+```
+
+Example of use:
 <!--
 ```
 <custom-element-demo>
@@ -24,3 +30,31 @@ Polymer element to show Wordpress posts
   category-names="development, documentation"
 ></wordpress-posts>
 ```
+
+## Documentation
+
+Checkout the [webcomponents page](https://www.webcomponents.org/element/therapychat/wordpress-posts).
+
+## Changelog
+
+See [CHANGELOG](./CHANGELOG.md) file.
+
+## Contributing
+
+Please read [CONTRIBUTING](./CONTRIBUTING.md) file to follow good practices.
+
+You will need [NodeJS](https://nodejs.org).
+
+1. Close the repo: `git clone git@github.com:TherapyChat/wordpress-posts.git`
+2. Install dependencies: `npm install`
+3. Code!
+4. Test: `npm test`
+5. Create a [Pull Request](https://github.com/therapychat/wordpress-posts/pulls)
+
+### Contributors
+
+- [Alberto Fernandez](http://twitter.com/albertofdzm)
+
+## License
+
+Edge is available under the `Apache License 2.0`. See the [LICENSE](./LICENSE) file for more info.

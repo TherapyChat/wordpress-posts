@@ -13,6 +13,8 @@ Example:
 ></wordpress-posts>
 ```
 
+It will retrieve the posts from the url automatically but can be trigger by calling `getPosts()`.
+
 ### Styling
 
 The following custom properties and mixins are available for styling:
@@ -256,11 +258,15 @@ Custom property | Description | Default
         this.getCategories()
       }
     },
-
+    /**
+     * Get all the categories from the specified `url`
+     */
     getCategories: function () {
       this.$.categoriesAjax.generateRequest()
     },
-
+    /**
+     * Generates a query param value with the categories specified in `categoryNames`. Will neet both `categories` and `categoryNames` to be filled
+     */
     generateCategoryIds: function (categories, categoryNames) {
       return categories.reduce(
         function (categoryIds, category) {
@@ -273,7 +279,9 @@ Custom property | Description | Default
         []
       ).join(',')
     },
-
+    /**
+     * Retrieve the posts from the specified `url`.
+     */
     getPosts: function () {
       if (this.max) {
         this.$.postsAjax.params.per_page = this.max
