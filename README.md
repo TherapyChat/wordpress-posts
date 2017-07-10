@@ -12,7 +12,7 @@ bower install -S wordpress-posts
 ```
 
 Example of use:
-<!--
+<!---
 ```
 <custom-element-demo>
   <template>
