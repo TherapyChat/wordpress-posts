@@ -25,6 +25,39 @@
           assert.equal(element.is, 'wordpress-posts')
         })
       })
+
+      suite('receiving posts response', function () {
+        var element
+        var spy
+        var eventDetail = {
+          response: [
+            {
+              id: 0,
+              title: {
+                rendered: ''
+              },
+              excerpt: {
+                rendered: ''
+              },
+              link: '',
+              featured_media: 0
+            }
+          ]
+        }
+
+        setup(function () {
+          element = fixture('basic')
+          spy = sinon.spy()
+        })
+
+        test('fires posts-changed event', function () {
+          element.addEventListener('posts-changed', spy)
+          element.onResponsePosts(null, eventDetail)
+
+          assert(spy.calledOnce)
+          assert.lengthOf(spy.lastCall.args[0].detail.value, 1)
+        })
+      })
     </script>
   </body>
 </html>
