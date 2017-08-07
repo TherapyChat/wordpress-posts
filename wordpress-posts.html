@@ -188,6 +188,14 @@ Custom property | Description | Default
   </template>
 </template>
 <script>
+  /**
+   * `wordpress-posts`
+   *
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   */
   Polymer({
     is: 'wordpress-posts',
 
@@ -308,18 +316,14 @@ Custom property | Description | Default
     },
 
     onRedponseMedia: function (ev, detail) {
+      var sizes = detail.response.media_details.sizes
       var postIndex = this.posts.findIndex(function (post) {
         return detail.postId === post.postId
       })
+      var sourceUrl = sizes.medium_large ? sizes.medium_large.source_url : sizes.thumbnail.source_url
 
-      this.set(
-        'posts.' + postIndex + '.imageSrc',
-        detail.response.media_details.sizes.medium_large.source_url
-      )
-      this.set(
-        'posts.' + postIndex + '.imageAlt',
-        detail.response.alt_text
-      )
+      this.set('posts.' + postIndex + '.imageSrc', sourceUrl)
+      this.set('posts.' + postIndex + '.imageAlt', detail.response.alt_text)
     },
 
     onResponsePosts: function (ev, detail) {

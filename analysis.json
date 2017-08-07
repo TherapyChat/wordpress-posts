@@ -1,0 +1,734 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "`wordpress-posts`\n\nExample:\n```html\n<wordpress-posts\n  url=\"https://wordpress.org/news\"\n  max=\"4\"\n  category-names=\"development, documentation\"\n></wordpress-posts>\n```\n\nIt will retrieve the posts from the url automatically but can be trigger by calling `getPosts()`.\n\n### Styling\n\nThe following custom properties and mixins are available for styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--wordpress-posts` | Mixin applied to the component | `{}`\n`--wordpress-posts-article` | Mixin applied to the articles | `{}`\n`--wordpress-posts-article-mq-m-up` | Mixin applied to the articles on `min-width: 600px` | `{}`\n`--wordpress-posts-article-mq-l-up` | Mixin applied to the articles on `min-width: 900px` | `{}`\n`--wordpress-posts-thumbnail` | Mixin applied to the image thumbnails | `{}`\n`--wordpress-posts-thumbnail-hover` | Mixin applied to the image thumbnails when hover | `{}`\n`--wordpress-posts-thumbnail-container` | Mixin applied to the image thumbnails container | `{}`\n`--wordpress-posts-title` | Mixin applied to the title | `{}`\n`--wordpress-posts-excerpt` | Mixin applied to the excerpt | `{}`\n\n`wordpress-posts`",
+      "summary": "",
+      "path": "wordpress-posts.html",
+      "properties": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "The URL of the Wordpress blog.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 205,
+              "column": 6
+            },
+            "end": {
+              "line": 207,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "categories",
+          "type": "Array",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 208,
+              "column": 6
+            },
+            "end": {
+              "line": 211,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "observer": "\"_handleCategoriesChanged\""
+            }
+          }
+        },
+        {
+          "name": "categoryNames",
+          "type": "string",
+          "description": "The query string of categories separated by commas for filter the posts. (`development, documentation`).\nIf this property is empty then the component will retrieve all posts without filtering.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 216,
+              "column": 6
+            },
+            "end": {
+              "line": 218,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "categoryIds",
+          "type": "string",
+          "description": "The query string of categoriesIds separated by commat for filter the posts (`33, 25`).\nThis property will be generated automatically if `categoryNames` is set.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 223,
+              "column": 6
+            },
+            "end": {
+              "line": 226,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "observer": "\"_handleCategoryIdsChanged\""
+            }
+          }
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "description": "Max number of posts to show",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 230,
+              "column": 6
+            },
+            "end": {
+              "line": 233,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "3"
+        },
+        {
+          "name": "maxTitleLength",
+          "type": "number",
+          "description": "Max length for post titles. If the title exceeds this length it will be trimed and will have an ellipsis appended.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 237,
+              "column": 6
+            },
+            "end": {
+              "line": 240,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "50"
+        },
+        {
+          "name": "maxExcerptLength",
+          "type": "number",
+          "description": "Max length for post excerpts. If the excerpt exceeds this length it will be trimed and will have an ellipsis appended.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 244,
+              "column": 6
+            },
+            "end": {
+              "line": 247,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "0"
+        },
+        {
+          "name": "posts",
+          "type": "Array",
+          "description": "The retrieved posts array.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 251,
+              "column": 6
+            },
+            "end": {
+              "line": 254,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          }
+        },
+        {
+          "name": "showReadMore",
+          "type": "boolean",
+          "description": "If true the posts elements will display a read more link.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 258,
+              "column": 6
+            },
+            "end": {
+              "line": 258,
+              "column": 27
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "_mediaId",
+          "type": "string",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 259,
+              "column": 6
+            },
+            "end": {
+              "line": 259,
+              "column": 22
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "ready",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 262,
+              "column": 4
+            },
+            "end": {
+              "line": 268,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "getCategories",
+          "description": "Get all the categories from the specified `url`",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 272,
+              "column": 4
+            },
+            "end": {
+              "line": 274,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "generateCategoryIds",
+          "description": "Generates a query param value with the categories specified in `categoryNames`. Will neet both `categories` and `categoryNames` to be filled",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 278,
+              "column": 4
+            },
+            "end": {
+              "line": 289,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "categories"
+            },
+            {
+              "name": "categoryNames"
+            }
+          ]
+        },
+        {
+          "name": "getPosts",
+          "description": "Retrieve the posts from the specified `url`.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 293,
+              "column": 4
+            },
+            "end": {
+              "line": 301,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "getPostImage",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 303,
+              "column": 4
+            },
+            "end": {
+              "line": 309,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "post"
+            }
+          ]
+        },
+        {
+          "name": "onResponseCategories",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 311,
+              "column": 4
+            },
+            "end": {
+              "line": 315,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            },
+            {
+              "name": "detail"
+            }
+          ]
+        },
+        {
+          "name": "onRedponseMedia",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 317,
+              "column": 4
+            },
+            "end": {
+              "line": 326,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            },
+            {
+              "name": "detail"
+            }
+          ]
+        },
+        {
+          "name": "onResponsePosts",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 328,
+              "column": 4
+            },
+            "end": {
+              "line": 330,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            },
+            {
+              "name": "detail"
+            }
+          ]
+        },
+        {
+          "name": "parsePost",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 332,
+              "column": 4
+            },
+            "end": {
+              "line": 344,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "post"
+            }
+          ]
+        },
+        {
+          "name": "parsePosts",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 346,
+              "column": 4
+            },
+            "end": {
+              "line": 351,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "posts"
+            }
+          ]
+        },
+        {
+          "name": "trimHTML",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 353,
+              "column": 4
+            },
+            "end": {
+              "line": 365,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "html"
+            },
+            {
+              "name": "maxLength"
+            }
+          ]
+        },
+        {
+          "name": "_computeCategoriesUrl",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 367,
+              "column": 4
+            },
+            "end": {
+              "line": 369,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "url"
+            }
+          ]
+        },
+        {
+          "name": "_computeMediaUrl",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 371,
+              "column": 4
+            },
+            "end": {
+              "line": 373,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "url"
+            },
+            {
+              "name": "mediaId"
+            }
+          ]
+        },
+        {
+          "name": "_computePostsUrl",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 375,
+              "column": 4
+            },
+            "end": {
+              "line": 377,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "url"
+            }
+          ]
+        },
+        {
+          "name": "_handleCategoriesChanged",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 379,
+              "column": 4
+            },
+            "end": {
+              "line": 383,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_handleCategoryIdsChanged",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 385,
+              "column": 4
+            },
+            "end": {
+              "line": 387,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newVal"
+            },
+            {
+              "name": "oldVal"
+            }
+          ]
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/index.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 198,
+          "column": 10
+        },
+        "end": {
+          "line": 388,
+          "column": 3
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "attributes": [
+        {
+          "name": "url",
+          "description": "The URL of the Wordpress blog.",
+          "sourceRange": {
+            "start": {
+              "line": 205,
+              "column": 6
+            },
+            "end": {
+              "line": 207,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "categories",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 208,
+              "column": 6
+            },
+            "end": {
+              "line": 211,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "Array"
+        },
+        {
+          "name": "category-names",
+          "description": "The query string of categories separated by commas for filter the posts. (`development, documentation`).\nIf this property is empty then the component will retrieve all posts without filtering.",
+          "sourceRange": {
+            "start": {
+              "line": 216,
+              "column": 6
+            },
+            "end": {
+              "line": 218,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "category-ids",
+          "description": "The query string of categoriesIds separated by commat for filter the posts (`33, 25`).\nThis property will be generated automatically if `categoryNames` is set.",
+          "sourceRange": {
+            "start": {
+              "line": 223,
+              "column": 6
+            },
+            "end": {
+              "line": 226,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "max",
+          "description": "Max number of posts to show",
+          "sourceRange": {
+            "start": {
+              "line": 230,
+              "column": 6
+            },
+            "end": {
+              "line": 233,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "max-title-length",
+          "description": "Max length for post titles. If the title exceeds this length it will be trimed and will have an ellipsis appended.",
+          "sourceRange": {
+            "start": {
+              "line": 237,
+              "column": 6
+            },
+            "end": {
+              "line": 240,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "max-excerpt-length",
+          "description": "Max length for post excerpts. If the excerpt exceeds this length it will be trimed and will have an ellipsis appended.",
+          "sourceRange": {
+            "start": {
+              "line": 244,
+              "column": 6
+            },
+            "end": {
+              "line": 247,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "posts",
+          "description": "The retrieved posts array.",
+          "sourceRange": {
+            "start": {
+              "line": 251,
+              "column": 6
+            },
+            "end": {
+              "line": 254,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "Array"
+        },
+        {
+          "name": "show-read-more",
+          "description": "If true the posts elements will display a read more link.",
+          "sourceRange": {
+            "start": {
+              "line": 258,
+              "column": 6
+            },
+            "end": {
+              "line": 258,
+              "column": 27
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "posts-changed",
+          "description": "Fired when the `posts` property changes.",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "wordpress-posts"
+    }
+  ]
+}
