@@ -57,4 +57,4 @@ You will need [NodeJS](https://nodejs.org).
 
 ## License
 
-Edge is available under the `Apache License 2.0`. See the [LICENSE](./LICENSE) file for more info.
+\<wordpress-posts\> is available under the `Apache License 2.0`. See the [LICENSE](./LICENSE) file for more info.
