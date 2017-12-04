@@ -166,7 +166,7 @@ Custom property | Description | Default
     id="mediaAjax"
     url="[[_computeMediaUrl(url, _mediaId)]]"
     handle-as="json"
-    on-response="onRedponseMedia"
+    on-response="onResponseMedia"
   ></iron-ajax>
 
   <template is="dom-repeat" items="[[posts]]" as="post">
@@ -315,7 +315,7 @@ Custom property | Description | Default
       }
     },
 
-    onRedponseMedia: function (ev, detail) {
+    onResponseMedia: function (ev, detail) {
       var sizes = detail.response.media_details.sizes
       var postIndex = this.posts.findIndex(function (post) {
         return detail.postId === post.postId
